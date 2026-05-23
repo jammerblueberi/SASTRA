@@ -3,172 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sastra Archive | Fantasy Wanderlust</title>
+    <title>Sastra Archive | Fresh Journal Edition</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Fantasy Gradient Palette */
-            --bg-dark: #080a10;
-            --g1: #cba6f7; /* Inazuma Purple */
-            --g2: #f9e2af; /* Liyue Gold */
-            --g3: #f38ba8; /* Deep Crimson */
-            --g4: #94e2d5; /* Turquoise */
-            
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-main: #cdd6f4;
-            --text-sub: #a6adc8;
+            /* Palette: Fresh & Bright */
+            --bg-light: #fdfbfb;
+            --sakura: #ffdce5;
+            --matcha: #e2f0d9;
+            --accent: #ff8fa3;
+            --text-dark: #2d3436;
+            --text-sub: #636e72;
+            --glass-white: rgba(255, 255, 255, 0.8);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-dark);
-            /* Dramatic Fantasy Gradient */
+            background-color: var(--bg-light);
+            /* Soft & Bright Gradient */
             background-image: 
-                radial-gradient(at 10% 10%, rgba(203, 166, 247, 0.2) 0px, transparent 50%),
-                radial-gradient(at 90% 10%, rgba(249, 226, 175, 0.15) 0px, transparent 50%),
-                radial-gradient(at 50% 90%, rgba(243, 139, 168, 0.15) 0px, transparent 50%),
-                radial-gradient(at 10% 90%, rgba(148, 226, 213, 0.1) 0px, transparent 50%);
-            color: var(--text-main); min-height: 100vh; overflow-x: hidden;
+                linear-gradient(120deg, var(--sakura) 0%, #fdfbfb 50%, var(--matcha) 100%);
+            background-attachment: fixed;
+            color: var(--text-dark); min-height: 100vh; overflow-x: hidden;
         }
 
-        /* Marquee Artistic */
+        /* Running Text - Bright Style */
         .marquee-box {
-            background: rgba(0, 0, 0, 0.7); border-bottom: 2px solid; 
-            border-image: linear-gradient(to right, var(--g1), var(--g2), var(--g3)) 1;
-            padding: 12px 0; overflow: hidden; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(15px);
+            background: var(--glass-white); border-bottom: 2px solid var(--accent); 
+            padding: 10px 0; overflow: hidden; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px);
         }
         .marquee-inner {
-            display: inline-block; white-space: nowrap; animation: scroll 30s linear infinite;
-            font-weight: 800; color: var(--g2); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+            display: inline-block; white-space: nowrap; animation: scroll 25s linear infinite;
+            font-weight: 800; color: var(--accent); font-size: 0.75rem; letter-spacing: 1px;
         }
         @keyframes scroll { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
 
         .container { max-width: 1200px; margin: auto; padding: 20px; text-align: center; }
         
-        /* SASTRA FONT (Classy & Bold) */
         header h1 { 
-            font-family: 'Playfair Display', serif; font-weight: 900; font-size: 3.5rem; 
-            margin-top: 30px; color: #fff; letter-spacing: -2px; line-height: 1;
+            font-family: 'DM Serif Display', serif; font-size: 3.5rem; 
+            margin-top: 30px; color: var(--text-dark); letter-spacing: -1px;
         }
-        header h1 span { 
-            background: linear-gradient(to right, var(--g1), var(--g3));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(203, 166, 247, 0.3);
-        }
+        header h1 span { color: var(--accent); }
 
-        .section { display: none; flex-direction: column; align-items: center; min-height: 70vh; justify-content: center; animation: fadeIn 0.5s ease; }
+        .section { display: none; flex-direction: column; align-items: center; min-height: 70vh; justify-content: center; animation: slideUp 0.5s ease-out; }
         .active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Navigation Grid (Glassmorphism & Glow) */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 100%; margin-top: 40px; }
+        /* Navigation Cards */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; margin-top: 40px; }
         .card-btn {
-            background: var(--glass); border: 1px solid var(--glass-border); padding: 60px 30px;
-            border-radius: 30px; cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-weight: 800; font-size: 1.1rem; color: #fff; text-transform: uppercase; letter-spacing: 1px;
-            position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: var(--glass-white); border: 2px solid white; padding: 50px 30px;
+            border-radius: 30px; cursor: pointer; transition: 0.3s;
+            font-weight: 800; font-size: 1rem; color: var(--text-dark);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
         .card-btn:hover { 
-            background: rgba(255, 255, 255, 0.07); 
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 15px 40px rgba(203, 166, 247, 0.2);
-        }
-        .b-indo-btn:hover { border-color: var(--g3); box-shadow: 0 15px 40px rgba(243, 139, 168, 0.2); }
-        .b-ing-btn:hover { border-color: var(--g1); box-shadow: 0 15px 40px rgba(203, 166, 247, 0.2); }
-        .card-btn::before {
-            content: ""; position: absolute; inset: 0; border-radius: 30px; padding: 2px;
-            background: linear-gradient(to right, var(--g1), var(--g3));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0.5;
+            transform: translateY(-5px); border-color: var(--accent);
+            box-shadow: 0 15px 30px rgba(255, 143, 163, 0.2);
         }
 
-        /* Task Grid (Horizontal & Stacked) */
+        /* Horizontal Task Grid */
         .task-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); 
-            gap: 25px; margin-top: 50px; text-align: left; width: 100%;
+            gap: 25px; margin-top: 40px; text-align: left; width: 100%;
         }
 
         .item { 
-            background: rgba(20, 20, 30, 0.6); border-radius: 30px; border: 1px solid var(--glass-border); 
-            overflow: hidden; display: flex; flex-direction: column; transition: 0.4s;
-            backdrop-filter: blur(10px);
+            background: white; border-radius: 25px; border: 1px solid #eee; 
+            overflow: hidden; display: flex; flex-direction: column; transition: 0.3s;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.03);
         }
-        .item:hover { transform: translateY(-5px); }
+        .item:hover { transform: translateY(-5px); box-shadow: 0 12px 35px rgba(0,0,0,0.08); }
 
-        .media-box { position: relative; height: 240px; background: #000; overflow: hidden; cursor: pointer; }
+        .media-box { position: relative; height: 230px; background: #f9f9f9; overflow: hidden; }
         .media-item { width: 100%; height: 100%; object-fit: cover; display: none; border: none; }
         .media-item.active { display: block; }
 
         .nav-caro {
-            position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6);
-            border: none; color: #fff; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 10;
+            position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.8);
+            border: none; color: var(--accent); width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 10;
         }
 
-        /* INFO & EASY READ FONT */
-        .info { padding: 30px; flex-grow: 1; }
-        .info h4 { 
-            font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.3rem;
-            margin: 8px 0 12px; color: #fff; line-height: 1.3;
-        }
-        .info p { 
-            font-weight: 600; font-size: 0.85rem; color: var(--text-sub); line-height: 1.7; 
-        }
+        .info { padding: 25px; }
+        .info h4 { font-weight: 800; font-size: 1.25rem; color: var(--text-dark); margin: 10px 0; }
+        .info p { font-size: 0.9rem; color: var(--text-sub); line-height: 1.6; font-weight: 500; }
 
         .btn-link {
             display: inline-flex; align-items: center; justify-content: center;
-            width: 100%; margin-top: 20px; background: linear-gradient(to right, var(--g1), var(--g3));
-            color: #0b0e14; padding: 14px; border-radius: 16px; text-decoration: none; font-weight: 800; font-size: 0.8rem;
-            transition: 0.3s;
+            width: 100%; margin-top: 15px; background: var(--accent); color: white;
+            padding: 13px; border-radius: 15px; text-decoration: none; font-weight: 800; font-size: 0.8rem;
         }
-        .btn-link:hover { filter: brightness(1.1); transform: scale(1.02); }
 
-        /* Floating UI (Fantasy) */
-        .f-box { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 9999; }
+        /* Float Buttons */
+        .f-box { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 12px; z-index: 9999; }
         .circle { 
-            width: 60px; height: 60px; border-radius: 20px; border: none; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; font-size: 1.4rem; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4); transition: 0.3s;
+            width: 55px; height: 55px; border-radius: 20px; border: none; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1); transition: 0.3s;
         }
-        .m-btn { background: var(--g1); color: #1e1e2e; }
-        .c-btn { background: var(--g2); color: #1e1e2e; }
-        .back-btn { margin-top: 30px; color: var(--g1); cursor: pointer; font-weight: 700; text-decoration: underline; font-size: 0.9rem; }
+        .m-btn { background: #dff9fb; color: #130f40; }
+        .c-btn { background: var(--sakura); color: var(--accent); }
+        .back-btn { margin-top: 25px; color: var(--accent); cursor: pointer; font-weight: 800; text-decoration: none; font-size: 0.85rem; }
 
-        /* Zoom & Modal (Magical) */
-        #lbox { position: fixed; inset: 0; background: rgba(0,0,0,0.97); display: none; z-index: 10001; align-items: center; justify-content: center; cursor: zoom-out; backdrop-filter: blur(8px); }
-        #lbox img { max-width: 95%; max-height: 90vh; border-radius: 12px; border: 2px solid; border-image: linear-gradient(to right, var(--g1), var(--g2)) 1; }
+        /* Zoom & Modal */
+        #lbox { position: fixed; inset: 0; background: rgba(255,255,255,0.95); display: none; z-index: 10001; align-items: center; justify-content: center; cursor: zoom-out; backdrop-filter: blur(5px); }
+        #lbox img { max-width: 90%; max-height: 85vh; border-radius: 15px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
 
-        #comment-overlay { position: fixed; inset: 0; background: rgba(8, 10, 16, 0.95); backdrop-filter: blur(15px); display: none; justify-content: center; align-items: center; z-index: 10000; }
-        .overlay-content { background: rgba(20, 20, 30, 0.8); width: 90%; max-width: 440px; padding: 40px; border-radius: 35px; border: 1px solid var(--glass-border); text-align: center; }
-        input, textarea { width: 100%; padding: 16px; margin: 12px 0; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); color: #fff; border-radius: 15px; outline: none; }
-        input:focus, textarea:focus { border-color: var(--g1); }
+        #comment-overlay { position: fixed; inset: 0; background: rgba(255,220,229,0.4); backdrop-filter: blur(10px); display: none; justify-content: center; align-items: center; z-index: 10000; }
+        .overlay-content { background: white; width: 90%; max-width: 420px; padding: 40px; border-radius: 35px; box-shadow: 0 25px 60px rgba(0,0,0,0.1); text-align: center; }
+        input, textarea { width: 100%; padding: 15px; margin: 10px 0; background: #fdf2f4; border: 1px solid #eee; border-radius: 15px; outline: none; }
     </style>
 </head>
 <body onclick="playMusic()">
 
 <div class="marquee-box">
-    <div class="marquee-inner">LITERATURE ARCHIVE • ETERNITY OF INAZUMA • PROSPERITY OF LIYUE • SYNCING CULTURAL RECORDS...</div>
+    <div class="marquee-inner">LITERATURE ARCHIVE • FRESH RECORDS • SYNCING CULTURAL DATA • WELCOME TRAVELER • ♪♪♪</div>
 </div>
 
 <div class="container">
     <header><h1>Sastra<span>Archive</span></h1></header>
-    <p style="color: var(--text-sub); font-style: italic; margin-top: 10px;">"Words carry the weight of a thousand years."</p>
+    <p style="color: var(--text-sub); font-weight: 700; margin-top: 5px;">A collection of beautiful words and memories.</p>
 
     <div id="step-1" class="section active">
-        <h3 style="margin-top:40px; color: var(--g2); font-size: 0.9rem; letter-spacing: 2px;">PILIH CABANG SASTRA</h3>
+        <h3 style="margin-top:20px; color: var(--accent); font-size: 0.9rem; letter-spacing: 1px;">PILIH BAHASA</h3>
         <div class="grid">
-            <div class="card-btn b-indo-btn" onclick="goStep(2, 'Indonesia')">🇮🇩 BAHASA INDONESIA</div>
-            <div class="card-btn b-ing-btn" onclick="goStep(2, 'Inggris')">🇬🇧 BAHASA INGGRIS</div>
+            <div class="card-btn" onclick="goStep(2, 'Indonesia')">🇮🇩 BAHASA INDONESIA</div>
+            <div class="card-btn" onclick="goStep(2, 'Inggris')">🇬🇧 BAHASA INGGRIS</div>
         </div>
     </div>
 
     <div id="step-2" class="section">
-        <h3 id="subject-label" style="font-family: 'Playfair Display', serif; font-size: 2rem;">BAHASA</h3>
+        <h3 id="subject-label" style="font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: var(--text-dark);">BAHASA</h3>
         <div class="grid">
             <div class="card-btn" onclick="render('1')">SEMESTER 1</div>
             <div class="card-btn" onclick="render('2')">SEMESTER 2</div>
@@ -177,7 +147,7 @@
     </div>
 
     <div id="step-3" class="section">
-        <h3 id="final-label" style="color: #fff">COLLECTED RECORDS</h3>
+        <h3 style="color: var(--accent)">ARCHIVE LOADED</h3>
         <div class="task-grid" id="mainGrid"></div>
         <div class="back-btn" onclick="goStep(2)" style="margin-top:50px;">← KEMBALI KE SEMESTER</div>
     </div>
@@ -187,12 +157,12 @@
 
 <div id="comment-overlay">
     <div class="overlay-content">
-        <h3 style="color: var(--g2); margin-bottom: 10px; font-family: 'Playfair Display', serif; font-size: 1.8rem;">Transmit Report</h3>
-        <p id="ctx" style="font-size: 0.7rem; color: var(--text-sub); margin-bottom: 20px;"></p>
-        <input type="text" id="i-nama" placeholder="Nama Traveler">
-        <textarea id="i-pesan" rows="4" placeholder="Tuliskan pesan atau saran..."></textarea>
-        <button onclick="sendGform()" style="width:100%; padding:16px; background:linear-gradient(to right, var(--g1), var(--g3)); border:none; border-radius:15px; font-weight:800; cursor:pointer; color:#0b0e14;">KIRIM KE ARSIP</button>
-        <p onclick="toggleC(false)" style="margin-top:15px; cursor:pointer; font-size:0.8rem; color:#f38ba8;">BATAL</p>
+        <h3 style="color: var(--text-dark); margin-bottom: 10px;">Transmit Report</h3>
+        <p id="ctx" style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 20px;"></p>
+        <input type="text" id="i-nama" placeholder="Your Name">
+        <textarea id="i-pesan" rows="4" placeholder="Your message..."></textarea>
+        <button onclick="sendGform()" style="width:100%; padding:15px; background:var(--accent); border:none; border-radius:15px; font-weight:800; cursor:pointer; color:white;">SEND TO ARCHIVE</button>
+        <p onclick="toggleC(false)" style="margin-top:15px; cursor:pointer; font-size:0.8rem; color:#bbb;">CLOSE</p>
     </div>
 </div>
 
@@ -232,13 +202,13 @@
         state.s = sem;
         goStep(3);
         const g = document.getElementById('mainGrid');
-        g.innerHTML = '<p style="color:var(--g1); font-weight: 700;">Syncing records...</p>';
+        g.innerHTML = '<p>Syncing records...</p>';
 
         Papa.parse(csvUrl, {
             download: true, header: true,
             complete: (res) => {
                 const data = res.data.filter(r => r.Mapel && r.Mapel.trim() == state.m && r.Semester == sem);
-                g.innerHTML = data.length ? '' : '<p>Belum ada data di arsip ini.</p>';
+                g.innerHTML = data.length ? '' : '<p>No records found. ♪</p>';
 
                 data.forEach((row, i) => {
                     const links = row['URL Foto'] ? row['URL Foto'].split(',').map(u => u.trim()) : [];
@@ -248,7 +218,7 @@
                         const active = idx === 0 ? 'active' : '';
                         if (url.includes('drive.google.com')) {
                             let id = url.split('/d/')[1]?.split('/')[0] || url.split('id=')[1];
-                            mediaHTML += `<iframe class="media-item ${active}" src="https://drive.google.com/file/d/${id}/preview" allow="autoplay"></iframe>`;
+                            mediaHTML += `<iframe class="media-item ${active}" src="https://drive.google.com/file/d/${id}/preview"></iframe>`;
                         } else if (url.match(/\.(mp4|webm|ogg)$/i)) {
                             mediaHTML += `<video controls class="media-item ${active}" src="${url}"></video>`;
                         } else {
@@ -260,7 +230,7 @@
                     let pdfBtn = '';
                     const linkMatch = desc.match(/https?:\/\/[^\s]+/);
                     if(linkMatch) {
-                        pdfBtn = `<a href="${linkMatch[0]}" target="_blank" class="btn-link">📄 BUKA DOKUMEN</a>`;
+                        pdfBtn = `<a href="${linkMatch[0]}" target="_blank" class="btn-link">📄 VIEW FILE</a>`;
                         desc = desc.replace(linkMatch[0], '');
                     }
 
@@ -274,7 +244,7 @@
                                 ` : ''}
                             </div>
                             <div class="info">
-                                <span style="font-size:0.7rem; color:var(--g2); font-weight:800; border-bottom: 2px solid var(--g2); padding-bottom: 2px;">${row.Tanggal || 'Arsip'}</span>
+                                <span style="font-size:0.65rem; color:var(--accent); font-weight:800; letter-spacing:1px;">${row.Tanggal || 'MEMORY'}</span>
                                 <h4>${row['Nama Tugas']}</h4>
                                 <p>${desc}</p>
                                 ${pdfBtn}
@@ -300,26 +270,26 @@
     }
 
     function toggleC(s) { 
-        document.getElementById('ctx').innerText = `Sync: ${state.m} - Semester ${state.s}`;
+        document.getElementById('ctx').innerText = `${state.m} - Semester ${state.s}`;
         document.getElementById('comment-overlay').style.display = s ? 'flex' : 'none'; 
     }
 
     function sendGform() {
         const n = document.getElementById('i-nama').value;
         const p = document.getElementById('i-pesan').value;
-        if(!n || !p) return alert("Isi semua data traveler!");
+        if(!n || !p) return alert("Please fill your identity! ♪");
 
         const formID = "1FAIpQLSe6kBnXtzPGnz-EvtVOpB6WPaYR7eazcIPXIUDHmeWtxiLO6w";
         const fd = new FormData();
-        fd.append('entry.1663247935', n); // Nama
-        fd.append('entry.1310953498', p); // Pesan
-        fd.append('entry.1898511384', state.m); // Mapel
-        fd.append('entry.2022890651', 'Sastra'); // Kategori
-        fd.append('entry.1958264527', state.s); // Semester
+        fd.append('entry.1663247935', n);
+        fd.append('entry.1310953498', p);
+        fd.append('entry.1898511384', state.m);
+        fd.append('entry.2022890651', 'Sastra');
+        fd.append('entry.1958264527', state.s);
 
         fetch(`https://docs.google.com/forms/d/e/${formID}/formResponse`, { method: 'POST', mode: 'no-cors', body: fd })
         .then(() => {
-            alert("Data Transmitted to Archive!");
+            alert("Sent successfully! ♪");
             toggleC(false);
             document.getElementById('i-pesan').value = '';
         });
